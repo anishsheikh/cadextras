@@ -699,7 +699,10 @@ __global__ void kQuantizeBlockwise(float * code, T * __restrict__ const A, float
     //TODO: figure out how to make compiler recognize what isn't executed based on template arguments, without the code below in ifndef would trigger static_assert if
     //this condition is true
     //have no idea what i wrote, havent tested it yet lol cause im sleepy.
-    assertm(((REQUESTED_BLOCK_SIZE / NUM_PER_TH % 64) != 0), "ROCm only Supports BLOCK_SIZE/NUM_PER_TH divisible by 64"); 
+    //../dockerx/Buildarea/shared/rocm-6/bitsandbytes/tests/test_functional.py::test_dynamic_blockwise_quantization[signed=T-128-nested=F-bf16] PASSED                        [  6%]
+    //../dockerx/Buildarea/shared/rocm-6/bitsandbytes/tests/test_functional.py::test_dynamic_blockwise_quantization[signed=T-64-nested=T-fp32] Fatal Python error: Aborted
+
+    assertm(((REQUESTED_BLOCK_SIZE / NUM_PER_TH % 64) == 0), "ROCm only Supports BLOCK_SIZE/NUM_PER_TH divisible by 64"); 
     
   const int n_full = gridDim.x * BLOCK_SIZE;
   int valid_items = 0;
